@@ -11,6 +11,8 @@
 		zephyr,display = &oled;
 		zmk,kscan = &kscan0;
 		zmk,matrix_transform = &default_transform;
+		zmk,backlight = &backlight;
+		zmk,underglow = &led_strip;
 	};
 
 	default_transform: keymap_transform_0 {
@@ -56,6 +58,15 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
 			, <&pro_micro 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
 			, <&pro_micro 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
 			;
+
+    backlight: pwmleds {
+        compatible = "pwm-leds";
+        label = "Backlight LEDs";
+        pwm_led_0 {
+            pwms = <&pwm0 6>;
+            label = "Backlight LED 0";
+        };
+    };
 		
 	};
 
@@ -86,21 +97,4 @@ RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)  RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10
     status = "okay";
     ch0-pin = <6>;
     /* ch0-inverted; */
-};
-
-/ {
-    backlight: pwmleds {
-        compatible = "pwm-leds";
-        label = "Backlight LEDs";
-        pwm_led_0 {
-            pwms = <&pwm0 6>;
-            label = "Backlight LED 0";
-        };
-    };
-};
-
-/ {
-    chosen {
-        zmk,backlight = &backlight;
-    };
 };
